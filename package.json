@@ -1,5 +1,5 @@
 {
-  "name": "detector",
+  "name": "pattern-detector",
   "version": "0.1.0",
   "description": "Scan files to find whether certain text pattern exists",
   "scripts": {
