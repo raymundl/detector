@@ -22,13 +22,12 @@ Usage: detect [options]
 Find whether `require()` is called in the current working direcotry:
 
 ```bash
-detect --patern 'require(.+)'
+detect --pattern 'require(.+)'
 ```
 
 The output will be:
-```
+
 /Users/ltebean/Desktop/nodejs-workspace/tabs/README.md line 35: var tabs = require('tabs');
-```
 
 
 
