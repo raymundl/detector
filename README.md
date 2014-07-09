@@ -3,7 +3,7 @@ Scan files to find whether certain text pattern exists.
 # Installation
 
 ```bash
-npm install -g detector
+npm install -g pattern-detector
 ```
 
 # Usage
