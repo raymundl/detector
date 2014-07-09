@@ -1,0 +1,31 @@
+{
+  "name": "detector",
+  "version": "0.1.0",
+  "description": "Scan files to find whether certain text pattern exists",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ltebean/detector.git"
+  },
+  "bin": {
+    "detect": "./bin/detector.js"
+  },
+  "keywords": [
+    "detect",
+    "scan",
+    "text",
+    "pattern"
+  ],
+  "author": "ltebean",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ltebean/detector/issues"
+  },
+  "homepage": "https://github.com/ltebean/detector",
+  "dependencies": {
+    "commander": "^2.2.0",
+    "walker": "^1.0.6",
+    "line-reader": "^0.2.3"
+  }
+}
