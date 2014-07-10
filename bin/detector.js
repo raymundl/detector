@@ -30,6 +30,9 @@ walker(directory)
     }
     return true;
   }).on('file', function(file, stat) {
+    if(exclusion && exclusion.test(file)){
+      return;
+    }
     testFile(file);
   })
   .on('error', function(er, entry, stat) {
