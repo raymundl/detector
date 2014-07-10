@@ -23,7 +23,8 @@ Options:
 Find whether `require()` is called in the current working direcotry, ignoring certain files:
 
 ```bash
-detect -p 'require(.+)' -e 'node_modules|.git|README'```
+detect -p 'require(.+)' -e 'node_modules|.git|README'
+```
 
 The output will be:
 

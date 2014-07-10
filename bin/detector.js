@@ -2,8 +2,7 @@
 
 var program = require('commander');
 var walker = require('walker');
-var lineReader = require('line-reader');
-
+var eachline = require('eachline');
 
 program
   .version('0.0.1')
@@ -25,12 +24,12 @@ var exclusion = program.exclusion ? new RegExp(program.exclusion) : null;
 
 walker(directory)
   .filterDir(function(dir, stat) {
-    if(exclusion && exclusion.test(dir)){
+    if (exclusion && exclusion.test(dir)) {
       return false;
     }
     return true;
   }).on('file', function(file, stat) {
-    if(exclusion && exclusion.test(file)){
+    if (exclusion && exclusion.test(file)) {
       return;
     }
     testFile(file);
@@ -44,7 +43,7 @@ walker(directory)
 
 function testFile(file) {
   var lineNum = 1;
-  lineReader.eachLine(file, function(line, last) {
+  eachline.in(file, function(line) {
     if (pattern.test(line)) {
       if (program.verbose) {
         console.log('%s line %d: %s', file, lineNum, line.trim());
@@ -53,7 +52,5 @@ function testFile(file) {
       }
     }
     lineNum++;
-    return true;
-
-  });
+  })
 }
