@@ -9,25 +9,31 @@ npm install -g pattern-detector
 # Usage
 
 ```basg
-Usage: detect [options]
 
-  Options:
+Options:
 
-    -d, --directory [directory path]  root directory to search from, defaults to pwd
-    -p, --pattern [text pattern]      text pattern to find
+  -d, --directory [directory path]     root directory to search from, defaults to pwd
+  -p, --pattern [text pattern]         text pattern to find
+  -e, --exclusion [exclusion pattern]  exclusive file pattern
+  -v, --verbose  
+                        verbose output
 ```
 
 # Example 
 
-Find whether `require()` is called in the current working direcotry:
+Find whether `require()` is called in the current working direcotry, ignoreing certain files
 
 ```bash
-detect --pattern 'require(.+)'
+detect -p 'require(.+)' -e 'node_modules|.git'
 ```
 
 The output will be:
 
-/Users/ltebean/Desktop/nodejs-workspace/tabs/README.md line 35: var tabs = require('tabs');
-
+./README.md line 24
+./README.md line 27
+./README.md line 32
+./bin/detector.js line 3
+./bin/detector.js line 4
+./bin/detector.js line 5
 
 
