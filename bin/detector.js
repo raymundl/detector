@@ -9,6 +9,7 @@ program
   .version('0.0.1')
   .option('-d, --directory [directory path]', 'root directory to search from, defaults to pwd')
   .option('-p, --pattern [text pattern]', 'text pattern to find')
+  .option('-v, --verbose', 'verbose output')
   .parse(process.argv);
 
 if (!program.pattern) {
@@ -41,7 +42,11 @@ function testFile(file) {
   var lineNum = 1;
   lineReader.eachLine(file, function(line, last) {
     if (pattern.test(line)) {
-      console.log('%s line %d: %s', file, lineNum, line.trim());
+      if(program.verbose){
+        console.log('%s line %d: %s', file, lineNum, line.trim());
+      }else{
+        console.log('%s line %d', file.replace(directory,''), lineNum);
+      }
     }
     lineNum++;
     return true;
