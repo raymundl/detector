@@ -28,16 +28,13 @@ Options:
 Find whether `require()` is called in the current working direcotry, ignoring certain files:
 
 ```bash
-detect -p 'require(.+)' -e 'node_modules|.git|README'
 detect -p tedious -e "(node_modules|\.zip)$" -i "\.json$" -v -x open
 ```
 
-The output will be:
+The output as following, with package.json file opened (Mac OS command):
 
 ```
-./bin/detector.js line 3
-./bin/detector.js line 4
-./bin/detector.js line 5
+./tedious/package.json 
+10: "tedious": "^1.14.0",
+--- all files checked ---
 ```
-
-
