@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-require('colors')
+require('colors');
 var program = require('commander');
 var walker = require('walker');
 var eachline = require('eachline');
@@ -11,6 +11,7 @@ program
   .option('-p, --pattern [text pattern]', 'text pattern to find')
   .option('-e, --exclusion [exclusion pattern]', 'exclusive directory or file pattern')
   .option('-i, --inclusion [inclusion pattern]', 'inclusive file pattern after exclusion')
+  .option('-k, --kind [string after last . in file name]', 'only files of specified kind is checked')
   .option('-v, --verbose', 'verbose output')
   .option('-x, --execute [cmd]', 'execute "cmd [file name]" if text pattern matched')
   .parse(process.argv);
@@ -24,6 +25,7 @@ var directory = program.directory || process.cwd();
 var pattern = new RegExp(program.pattern);
 var inclusion = program.inclusion ? new RegExp(program.inclusion) : null;
 var exclusion = program.exclusion ? new RegExp(program.exclusion) : null;
+var kind = program.kind ? new RegExp('\.'+program.kind+'$') : null;
 var progress = {walker: 0, tester: 0};
 var results = {};
 
@@ -39,8 +41,10 @@ walker(directory)
       return;
     }
     if ((inclusion && inclusion.test(file)) || (!inclusion)) {
-      progress.walker++;
-      testFile(file);
+      if ((kind && kind.test(file)) || (!kind)) {
+        progress.walker++;
+        testFile(file);
+      }
     }
   })
   .on('error', function(er, entry, stat) {
