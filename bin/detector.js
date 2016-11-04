@@ -6,7 +6,7 @@ var eachline = require('eachline');
 var exec = require('child_process').exec;
 
 program
-  .version('0.0.1')
+  .version('0.0.2')
   .option('-d, --directory [directory path]', 'root directory to search from, defaults to pwd')
   .option('-p, --pattern [text pattern]', 'text pattern to find')
   .option('-e, --exclusion [exclusion pattern]', 'exclusive directory or file pattern')
@@ -14,6 +14,7 @@ program
   .option('-k, --kind [string after last . in file name]', 'only files of specified kind is checked')
   .option('-v, --verbose', 'verbose output')
   .option('-x, --execute [cmd]', 'execute "cmd [file name]" if text pattern matched')
+  .option('-c, --count', 'provide match/line counts information')
   .parse(process.argv);
 
 if (!program.pattern) {
@@ -28,6 +29,11 @@ var exclusion = program.exclusion ? new RegExp(program.exclusion) : null;
 var kind = program.kind ? new RegExp('\.'+program.kind+'$') : null;
 var progress = {walker: 0, tester: 0};
 var results = {};
+var counts = {
+  file: 0,
+  line: 0,
+  match: 0
+}
 
 walker(directory)
   .filterDir(function(dir, stat) {
@@ -58,7 +64,9 @@ function testFile(file) {
   var result = results[file] = [];
   var lineNum = 1;
   eachline.in(file, function(line) {
-    if (pattern.test(line)) {
+    var matches = line.match(pattern);
+    if (matches) {
+      counts.match += matches.length
       if (program.verbose) {
         result.push('\n'+lineNum+': '+line.trim());
       } else {
@@ -68,10 +76,15 @@ function testFile(file) {
     lineNum++;
   }).on('finish', function() {
     if (result.length) {
+      counts.file++;
+      counts.line += result.length;
       console.log(file.replace(directory,'.').blue, result.join(','));
       if (program.execute) exec(program.execute+" "+file);
     }
     progress.tester++;
-    if (progress.walker === progress.tester) console.log('--- all files checked ---'.green);
+    if (progress.walker === progress.tester) {
+      console.log('--- all files checked ---'.green);
+      if (program.count) console.log('files=',counts.file,'lines=',counts.line,'matches=',counts.match);
+    }
   })
 }
